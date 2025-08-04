@@ -29,29 +29,8 @@ COPY checkpoints /checkpoints
 COPY main.py .
 COPY infer_low_disk.py .
 
-# Optional: sanity check to confirm files are present
-RUN ls -la /checkpoints/Dataset601_BraTS/nnUNetTrainer__nnUNetResEncUNetMPlans__3d_fullres
-
-# (Quick and dirty) Fake path to satisfy hardcoded legacy model paths
-RUN mkdir -p /media/volume1/khoa/BRATS25/7/Experiments/v03_nnunet211/nnUNetv2/nnUNet_results/Dataset601_BraTS/nnUNetTrainer__nnUNetResEncUNetMPlans__3d_fullres/fold_all && \
-    cp /checkpoints/Dataset601_BraTS/nnUNetTrainer__nnUNetResEncUNetMPlans__3d_fullres/dataset.json \
-       /media/volume1/khoa/BRATS25/7/Experiments/v03_nnunet211/nnUNetv2/nnUNet_results/Dataset601_BraTS/nnUNetTrainer__nnUNetResEncUNetMPlans__3d_fullres/ && \
-    cp /checkpoints/Dataset601_BraTS/nnUNetTrainer__nnUNetResEncUNetMPlans__3d_fullres/plans.json \
-       /media/volume1/khoa/BRATS25/7/Experiments/v03_nnunet211/nnUNetv2/nnUNet_results/Dataset601_BraTS/nnUNetTrainer__nnUNetResEncUNetMPlans__3d_fullres/ && \
-    cp /checkpoints/Dataset601_BraTS/nnUNetTrainer__nnUNetResEncUNetMPlans__3d_fullres/fold_all/checkpoint_final.pth \
-       /media/volume1/khoa/BRATS25/7/Experiments/v03_nnunet211/nnUNetv2/nnUNet_results/Dataset601_BraTS/nnUNetTrainer__nnUNetResEncUNetMPlans__3d_fullres/fold_all/
-
-# (Quick and dirty) Fake path for ResEncL model
-RUN mkdir -p /media/volume1/khoa/BRATS25/7/Experiments/v03_nnunet211/nnUNetv2/nnUNet_results/Dataset601_BraTS/nnUNetTrainer__nnUNetResEncUNetLPlans__3d_fullres/fold_all && \
-    cp /checkpoints/Dataset601_BraTS/nnUNetTrainer__nnUNetResEncUNetLPlans__3d_fullres/dataset.json \
-       /media/volume1/khoa/BRATS25/7/Experiments/v03_nnunet211/nnUNetv2/nnUNet_results/Dataset601_BraTS/nnUNetTrainer__nnUNetResEncUNetLPlans__3d_fullres/ && \
-    cp /checkpoints/Dataset601_BraTS/nnUNetTrainer__nnUNetResEncUNetLPlans__3d_fullres/plans.json \
-       /media/volume1/khoa/BRATS25/7/Experiments/v03_nnunet211/nnUNetv2/nnUNet_results/Dataset601_BraTS/nnUNetTrainer__nnUNetResEncUNetLPlans__3d_fullres/ && \
-    cp /checkpoints/Dataset601_BraTS/nnUNetTrainer__nnUNetResEncUNetLPlans__3d_fullres/fold_all/checkpoint_final.pth \
-       /media/volume1/khoa/BRATS25/7/Experiments/v03_nnunet211/nnUNetv2/nnUNet_results/Dataset601_BraTS/nnUNetTrainer__nnUNetResEncUNetLPlans__3d_fullres/fold_all/
-
-# Set nnUNet environment variable
-ENV nnUNet_results=/app/checkpoints
+#ENV nnUNet_results=/media/volume1/khoa/BRATS25/7/Experiments/v03_nnunet211/nnUNetv2/nnUNet_results
+ENV nnUNet_results=/checkpoints
 
 # Default runtime command — can override with your own at docker run
 CMD ["python", "-u", "main.py"]
