@@ -196,7 +196,7 @@ def convert_prob_to_label(prob_folder, ensemble_label_path, input_folder_path):
         print(f"Saved segmentation to: {output_path}")
 
 
-# # def perform_inference_step(inference_folder, input_folder_nnunet, ensemble_code):
+# def perform_inference_step(inference_folder, input_folder_nnunet, ensemble_code):
 
 #     """
 #     Performing inference in teh covnerted dataset.
@@ -294,17 +294,18 @@ def convert_prob_to_label(prob_folder, ensemble_label_path, input_folder_path):
 #     maybe_mkdir_p(ensemble_label_path)
 #     convert_prob_to_label(prob_folder=ensemble_prob_path, ensemble_label_path=ensemble_label_path, input_folder_path=input_folder_nnunet)
     
+"""
 def perform_inference_step(inference_folder, input_folder_nnunet, ensemble_code):
-    """
-    Perform inference using a specific nnUNet model identified by `ensemble_code`.
-    Currently supports single-model inference only.
-    """
+
     print(f"Starting inference for model: {ensemble_code}")
     print(f"Number of files for inference: {len(listdir(input_folder_nnunet))}")
+
+    ensemble_list = ensemble_code.split("_")  # e.g., ["ResNetM", "ResNetL"]
 
     # Map ensemble_code to trainer folder
     model_map = {
         "ResNetM": "nnUNetTrainer__nnUNetResEncUNetMPlans__3d_fullres",
+        "ResNetL": "nnUNetTrainer__nnUNetResEncUNetLPlans__3d_fullres",
     }
 
     if ensemble_code not in model_map:
@@ -329,27 +330,6 @@ def perform_inference_step(inference_folder, input_folder_nnunet, ensemble_code)
     print("Running:")
     print(command)
 
-    # Custom Results
-    #result = subprocess.run(command, shell=True, text=True, capture_output=True)
-    # proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
-
-    # stdout_log = []
-    # for line in proc.stdout:
-    #     print(line, end="")  # stream live
-    #     stdout_log.append(line)
-
-    # proc.wait()
-
-    # class Result:
-    #     def __init__(self, returncode, stdout):
-    #         self.returncode = returncode
-    #         self.stdout = stdout
-    #         self.stderr = None  # no separate stderr
-
-    # result = Result(proc.returncode, "".join(stdout_log))
-
-    # print("Command output:")
-    # print(result.stdout)
     import subprocess
 
     # Run the command
@@ -405,6 +385,113 @@ def perform_inference_step(inference_folder, input_folder_nnunet, ensemble_code)
     ensemble_label_path = join(inference_folder, 'ensemble', ensemble_code, 'raw')
     maybe_mkdir_p(ensemble_label_path)
     convert_prob_to_label(prob_folder=ensemble_prob_path, ensemble_label_path=ensemble_label_path, input_folder_path=input_folder_nnunet)
+"""
+def perform_inference_step(inference_folder, input_folder_nnunet, ensemble_code):
+    """
+    Perform inference using one or more nnUNet models identified by `ensemble_code`.
+    Supports multi-model ensembling by separating with underscores, e.g., 'ResNetM_ResNetL'.
+    """
+    from os import listdir
+    from os.path import join
+    import os
+    import subprocess
+    import shutil
+
+    print(f"Starting ensemble inference for: {ensemble_code}")
+    print(f"Number of files for inference: {len(listdir(input_folder_nnunet))}")
+
+    # Map model codes to trainer folders
+    model_map = {
+        "ResNetM": "nnUNetTrainer__nnUNetResEncUNetMPlans__3d_fullres",
+        "ResNetL": "nnUNetTrainer__nnUNetResEncUNetLPlans__3d_fullres",
+        # Add more models here
+    }
+
+    ensemble_list = ensemble_code.split("_")
+    for idx, model_key in enumerate(ensemble_list):
+        if model_key not in model_map:
+            raise ValueError(f"Unknown model key: {model_key}")
+
+        trainer_folder = model_map[model_key]
+        trainer, plan, config = trainer_folder.split("__")
+
+        results_path = join(os.environ['nnUNet_results'], "Dataset601_BraTS", trainer_folder)
+        print("OS environment nnUNet_results:", os.environ['nnUNet_results'])
+        print(f"Resolved model_training_output_dir: {results_path}")
+        maybe_mkdir_p(results_path)
+
+        # Output paths
+        dataset_id = "Dataset601_BraTS"
+        output_folder = join(inference_folder, "ensemble", model_key, "tmp")
+        maybe_mkdir_p(output_folder)
+
+        # Compose command dynamically
+        command = (
+            f"nnUNetv2_predict -d {dataset_id} "
+            f"-i {input_folder_nnunet} "
+            f"-o {output_folder} "
+            f"-f all -tr {trainer} -c {config} -p {plan} "
+            f"-device cuda --save_probabilities --disable_tta"
+        )
+
+        print("Running:")
+        print(command)
+
+        # Run subprocess
+        proc = subprocess.Popen(
+            command,
+            shell=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            bufsize=1
+        )
+
+        stdout_log = []
+        for line in proc.stdout:
+            print(line, end="")
+            stdout_log.append(line)
+
+        proc.wait()
+
+        class Result:
+            def __init__(self, returncode, stdout):
+                self.returncode = returncode
+                self.stdout = stdout
+                self.stderr = None
+
+        result = Result(proc.returncode, "".join(stdout_log))
+
+        print("Command output:")
+        print(result.stdout)
+        if result.stderr:
+            print("Command error:")
+            print(result.stderr)
+
+        # === Ensemble aggregation ===
+        ensemble_prob_path = join(inference_folder, 'ensemble', ensemble_code, 'prob')
+        maybe_mkdir_p(ensemble_prob_path)
+
+        first_infer = (idx == 0)
+
+        ensemble_predictions(
+            inference_folder=output_folder,
+            ensemble_prob_path=ensemble_prob_path,
+            number_models=len(ensemble_list),
+            first_infer=first_infer
+        )
+
+        # Clean up temp folder
+        shutil.rmtree(output_folder)
+
+    # === Final label conversion ===
+    ensemble_label_path = join(inference_folder, 'ensemble', ensemble_code, 'raw')
+    maybe_mkdir_p(ensemble_label_path)
+    convert_prob_to_label(
+        prob_folder=ensemble_prob_path,
+        ensemble_label_path=ensemble_label_path,
+        input_folder_path=input_folder_nnunet
+    )
 
 
 ################################################################################
