@@ -32,8 +32,7 @@ docker run --rm --network none --gpus all \
   --memory=16G --shm-size=4G \
   -v "$PWD/input:/input:ro" \
   -v "$PWD/output:/output:rw" \
-  nnunet-resnetm-resnetl:v5 \
-  python -u main.py --data_path /input --output_path /output
+  nnunet-resnetm-resnetl:v5 
 ```
 With extra shared memory (16GB), mounted on input and output
 ```
