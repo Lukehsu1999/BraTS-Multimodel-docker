@@ -54,4 +54,5 @@ RUN mkdir -p /media/volume1/khoa/BRATS25/7/Experiments/v03_nnunet211/nnUNetv2/nn
 ENV nnUNet_results=/app/checkpoints
 
 # Default runtime command — can override with your own at docker run
-CMD ["python", "main.py", "--data_path", "/input", "--output_path", "/output", "--nnUNet_results", "/app/checkpoints"]
+CMD ["python", "-u", "main.py"]
+
