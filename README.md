@@ -15,15 +15,15 @@ Clean up (optional):
 
 ```
 # Remove old image by tag
-docker image rm nnunet-resnetm:v0
+docker image rm nnunet-resnetm:v2
 
 # Prune unused build cache
 docker builder prune -f
 ```
 Build the image:
 ```
-cd one_model_docker/
-docker builld -t nnunet-resnetm:v2
+cd multi_model_docker/
+docker build -t nnunet-resnetm:v2 .
 ```
 Run the Docker:
 With extra shared memory (16GB), mounted on input and output
