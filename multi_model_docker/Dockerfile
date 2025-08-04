@@ -41,6 +41,15 @@ RUN mkdir -p /media/volume1/khoa/BRATS25/7/Experiments/v03_nnunet211/nnUNetv2/nn
     cp /checkpoints/Dataset601_BraTS/nnUNetTrainer__nnUNetResEncUNetMPlans__3d_fullres/fold_all/checkpoint_final.pth \
        /media/volume1/khoa/BRATS25/7/Experiments/v03_nnunet211/nnUNetv2/nnUNet_results/Dataset601_BraTS/nnUNetTrainer__nnUNetResEncUNetMPlans__3d_fullres/fold_all/
 
+# (Quick and dirty) Fake path for ResEncL model
+RUN mkdir -p /media/volume1/khoa/BRATS25/7/Experiments/v03_nnunet211/nnUNetv2/nnUNet_results/Dataset601_BraTS/nnUNetTrainer__nnUNetResEncUNetLPlans__3d_fullres/fold_all && \
+    cp /checkpoints/Dataset601_BraTS/nnUNetTrainer__nnUNetResEncUNetLPlans__3d_fullres/dataset.json \
+       /media/volume1/khoa/BRATS25/7/Experiments/v03_nnunet211/nnUNetv2/nnUNet_results/Dataset601_BraTS/nnUNetTrainer__nnUNetResEncUNetLPlans__3d_fullres/ && \
+    cp /checkpoints/Dataset601_BraTS/nnUNetTrainer__nnUNetResEncUNetLPlans__3d_fullres/plans.json \
+       /media/volume1/khoa/BRATS25/7/Experiments/v03_nnunet211/nnUNetv2/nnUNet_results/Dataset601_BraTS/nnUNetTrainer__nnUNetResEncUNetLPlans__3d_fullres/ && \
+    cp /checkpoints/Dataset601_BraTS/nnUNetTrainer__nnUNetResEncUNetLPlans__3d_fullres/fold_all/checkpoint_final.pth \
+       /media/volume1/khoa/BRATS25/7/Experiments/v03_nnunet211/nnUNetv2/nnUNet_results/Dataset601_BraTS/nnUNetTrainer__nnUNetResEncUNetLPlans__3d_fullres/fold_all/
+
 # Set nnUNet environment variable
 ENV nnUNet_results=/app/checkpoints
 
