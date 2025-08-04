@@ -33,7 +33,7 @@ myvenv/
 checkpoints/
 output/
 tmp/
-inference/
+/inference/
 converted_dataset/
 converted_data/
 *.tar
