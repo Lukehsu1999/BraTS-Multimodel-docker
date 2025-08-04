@@ -23,9 +23,18 @@ docker builder prune -f
 Build the image:
 ```
 cd multi_model_docker/
-docker build -t nnunet-resnetm-resnetl:v3 .
+docker build -t nnunet-resnetm-resnetl:v5 .
 ```
 Run the Docker:
+According to BraTS
+```
+docker run --rm --network none --gpus all \
+  --memory=16G --shm-size=4G \
+  -v "$PWD/input:/input:ro" \
+  -v "$PWD/output:/output:rw" \
+  nnunet-resnetm-resnetl:v5 \
+  python -u main.py --data_path /input --output_path /output
+```
 With extra shared memory (16GB), mounted on input and output
 ```
 docker run --rm --gpus all \
