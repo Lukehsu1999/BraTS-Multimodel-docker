@@ -1,0 +1,45 @@
+Clean up:
+docker image rm nnunet-resnetm:v0  # or whatever your tag is
+docker builder prune -f  # clears unused cache
+
+Build Docker: (cd to docker level)
+docker build -t nnunet-resnetm:v2 .
+
+
+Run in Ubuntu: (cd to project level)
+docker run --rm --gpus all \
+  -v "$PWD/input:/input" \
+  -v "$PWD/output:/output" \
+  nnunet-resnetm:v2 \
+  python main.py --data_path /input --output_path /output --nnUNet_results /app/checkpoints
+
+docker run --rm --gpus all \
+  -v "$PWD/input:/input" \
+  -v "$PWD/output:/output" \
+  nnunet-resnetm:v0 \
+  python main.py --data_path /input --output_path /output --nnUNet_results /app/checkpoints 2>&1 | tee docker_log.txt
+
+docker run --rm --gpus all \
+  -v "$PWD/input:/input" \
+  -v "$PWD/output:/output" \
+  -v "$PWD/tmp:/app/tmp" \
+  nnunet-resnetm:v2 \
+  python main.py --data_path /input --output_path /output --nnUNet_results /app/checkpoints
+
+Unbuffered output:
+docker run --rm --gpus all \
+  -v "$PWD/input:/input" \
+  -v "$PWD/output:/output" \
+  -v "$PWD/tmp:/app/tmp" \
+  nnunet-resnetm:v3 \
+  python -u main.py --data_path /input --output_path /output --nnUNet_results /app/checkpoints
+
+Run Docker with 16GB Memory: before that you need to increase the memory allowed for docker in docker desktop and potentially create a .wslconfig file with the following content:
+
+docker run --rm --gpus all \
+  --shm-size=16g \
+  -v "$PWD/input:/input" \
+  -v "$PWD/output:/output" \
+  -v "$PWD/tmp:/app/tmp" \
+  nnunet-resnetm:v3 \
+  python -u main.py --data_path /input --output_path /output --nnUNet_results /app/checkpoints
