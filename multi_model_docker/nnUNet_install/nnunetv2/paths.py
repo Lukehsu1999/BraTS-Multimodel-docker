@@ -25,7 +25,7 @@ PLEASE READ paths.md FOR INFORMATION TO HOW TO SET THIS UP
 
 # base = '/media/volume1/khoa/BRATS25/7/Experiments/v01/nnUNetv2' # 150 cases
 # base = '/media/volume1/khoa/BRATS25/7/Experiments/v02/nnUNetv2' # ALL cases with LABELS, nnunet v2.6.2
-OUT_BASE = '/media/volume1/khoa/BRATS25/7/Experiments/v03_nnunet211/nnUNetv2' # ALL cases with LABELS, nnunet v2.6.2
+#OUT_BASE = '/media/volume1/khoa/BRATS25/7/Experiments/v03_nnunet211/nnUNetv2' # ALL cases with LABELS, nnunet v2.6.2
 # IN_BASE = "/media/volume1/BraTS2025/7/nnUnet-Data"
 # maybe_mkdir_p(base)
 
@@ -39,16 +39,27 @@ OUT_BASE = '/media/volume1/khoa/BRATS25/7/Experiments/v03_nnunet211/nnUNetv2' # 
 # nnUNetv2_plan_experiment -d 601 -pl nnUNetPlannerResEncXL
 
 
-nnUNet_raw = "/media/volume1/BraTS2025/PseudoLabel_UnlabeledData" # pseudo label from training data wo GT
+# nnUNet_raw = "/media/volume1/BraTS2025/PseudoLabel_UnlabeledData" # pseudo label from training data wo GT
 # nnUNetv2_plan_and_preprocess -d 602 --verify_dataset_integrity -c 3d_fullres
 # nnUNetv2_plan_experiment -d 602 -pl nnUNetPlannerResEncM
 # nnUNetv2_plan_experiment -d 602 -pl nnUNetPlannerResEncL
 # nnUNetv2_plan_experiment -d 602 -pl nnUNetPlannerResEncXL
 
 # nnUNet_raw = join(OUT_BASE, 'nnUNet_raw') # os.environ.get('nnUNet_raw')
-nnUNet_preprocessed = join(OUT_BASE, 'nnUNet_preprocessed') # os.environ.get('nnUNet_preprocessed')
-nnUNet_results = join(OUT_BASE, 'nnUNet_results') # os.environ.get('nnUNet_results')
+# nnUNet_preprocessed = join(OUT_BASE, 'nnUNet_preprocessed') # os.environ.get('nnUNet_preprocessed')
+# nnUNet_results = join(OUT_BASE, 'nnUNet_results') # os.environ.get('nnUNet_results')
 
+# Use env vars if available
+nnUNet_raw = os.environ.get('nnUNet_raw')
+nnUNet_preprocessed = os.environ.get('nnUNet_preprocessed')
+nnUNet_results = os.environ.get('nnUNet_results')
+
+if nnUNet_raw is None:
+    print("nnUNet_raw is not defined...")
+if nnUNet_preprocessed is None:
+    print("nnUNet_preprocessed is not defined...")
+if nnUNet_results is None:
+    print("nnUNet_results is not defined...")
 
 ############## For Pseudo Label #######################
 
