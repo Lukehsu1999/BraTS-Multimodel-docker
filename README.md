@@ -1,0 +1,89 @@
+## 🔗 References
+
+- **Official BraTS Docker Submission Guide:**  
+  https://www.synapse.org/Synapse:syn64153130/wiki/633742
+- **Codebase Reference (GoAT Inference):**  
+  https://github.com/ShadowTwin41/BraTS_2023_2024_solutions/tree/main/Segmentation_Tasks/BraTS_ISBI_GoAT_2024_inference
+
+---
+
+## 🧱 Common Setup & Debugging Issues
+
+This section documents all major problems I encountered while containerizing a single nnUNet model for the BraTS GoAT challenge. These notes help ensure full reproducibility and traceability for future reference.
+
+---
+
+### 1. 🚫 Docker & GPU Incompatibility
+
+- **Problem:** My JupyterHub environment had a GPU but did **not** allow Docker access.  
+  My local Windows desktop supported Docker but had **no GPU**.
+- **Resolution:**  
+  Borrowed a laptop with an **NVIDIA RTX 4090 GPU** and installed Docker + NVIDIA Container Toolkit manually.
+
+---
+
+### 2. ⚙️ Ubuntu WSL2 + NVIDIA Container Toolkit Setup
+
+- **Problem:**  
+  Running Docker with GPU on Windows requires:
+  - Ubuntu installed under WSL2
+  - Installation of the [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html)
+
+---
+
+### 3. 📦 Missing `dynamic-network-architectures` in `nnUNet`
+
+- **Problem:**  
+  When installing from a copied `nnUNet` repo, the following error appears:
+```
+ModuleNotFoundError: No module named 'dynamic_network_architectures'
+```
+- **Root Cause:**  
+`dynamic-network-architectures` is a separate required repo.
+- **Resolution:**
+- Cloned [dynamic-network-architectures](https://github.com/MIC-DKFZ/dynamic-network-architectures) into the project folder
+- During Docker containerization, I **copied both repos** (`nnUNet` and `dynamic-network-architectures`) into the image
+- Used `pip install -e` to install them properly
+
+---
+
+### 4. 📁 nnUNet Model Path Reference Error
+
+- **Problem:**  
+Even after copying the trained model, `plans.json`, and `dataset.json` into my Docker repo, the nnUNet code **still references the original host path**, e.g.:
+```
+FileNotFoundError: [Errno 2] No such file or directory: '/media/volume1/.../dataset.json'
+```
+- **Dirty Fix (Temporary):**
+- Inside the Docker container, I **recreated the original folder path**, e.g. `/media/volume1/.../`, and placed the `dataset.json` there.
+- Copied `nnUNet` results into this fake directory for the model to run.
+- **Note:**  
+This issue is unresolved properly — ideally, I want to modify the nnUNet logic to accept arbitrary paths.
+
+---
+
+### 5. 💥 "Bus Error (Core Dump)" During Inference
+
+- **Problem:**  
+When running inference via Docker, the container crashes with:
+```
+Bus error (core dumped)
+```
+- **Root Cause:**  
+Docker ran out of allocated memory (especially common in Ubuntu + WSL2 setup).
+- **Resolution:**
+- Increased Docker memory allocation by editing `.wslconfig` in the Windows user home directory:
+  ```
+  [wsl2]
+  memory=16GB
+  processors=6
+  swap=8GB
+  ```
+- Restarted WSL:
+  ```bash
+  wsl --shutdown
+  ```
+
+---
+
+
