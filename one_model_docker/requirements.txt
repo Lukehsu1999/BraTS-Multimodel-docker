@@ -1,0 +1,12 @@
+torch
+numpy
+scipy
+pandas
+matplotlib
+tqdm
+einops
+nibabel
+SimpleITK
+connected_components_3d
+batchgenerators
+nilearn
