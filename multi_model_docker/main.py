@@ -35,7 +35,7 @@ def infer(
     print("Doing second step: perform_inference_step")
     #ensemble_code = 'rGB_rGL_rGS'
     #ensemble_code = 'rGB_rGS_rGL'
-    ensemble_code = 'ResNetM'
+    ensemble_code = 'ResNetM_ResNetL'
     inference_folder =  "/app/tmp/inference/"
     perform_inference_step(inference_folder=inference_folder, input_folder_nnunet=input_folder_nnunet, ensemble_code=ensemble_code)
     print("________________________ Second step completed ________________________")
