@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Docker
+*.log
+*.pid
+
+# Virtual environments
+env/
+venv/
+myvenv/
+.venv/
+
+# Jupyter and notebooks
+.ipynb_checkpoints/
+*.ipynb
+
+# Model artifacts
+*.nii.gz
+*.npz
+*.pkl
+*.ckpt
+*.pth
+*.pt
+
+# Checkpoints and output folders
+checkpoints/
+output/
+tmp/
+inference/
+converted_dataset/
+converted_data/
+*.tar
+*.zip
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# VSCode
+.vscode/
