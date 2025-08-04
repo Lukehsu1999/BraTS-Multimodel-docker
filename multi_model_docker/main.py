@@ -22,8 +22,6 @@ def infer():
     os.makedirs(converted_dataset, exist_ok=True)
     os.makedirs(inference_folder, exist_ok=True)
 
-    # === nnUNet model path
-    os.environ['nnUNet_results'] = "/checkpoints"
 
     # === GPU Info
     print("GPU is available" if torch.cuda.is_available() else "GPU is not available")
