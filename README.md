@@ -6,6 +6,36 @@
   https://github.com/ShadowTwin41/BraTS_2023_2024_solutions/tree/main/Segmentation_Tasks/BraTS_ISBI_GoAT_2024_inference
 
 ---
+---
+
+## 🛠️ Build and Run Docker Image
+
+Clean up (optional):
+
+```
+# Remove old image by tag
+docker image rm nnunet-resnetm:v0
+
+# Prune unused build cache
+docker builder prune -f
+```
+Build the image:
+```
+cd one_model_docker/
+docker builld -t nnunet-resnetm:v2
+```
+Run the Docker:
+With extra shared memory (16GB), mounted on input and output
+```
+docker run --rm --gpus all \
+  --shm-size=16g \
+  -v "$PWD/input:/input" \
+  -v "$PWD/output:/output" \
+  -v "$PWD/tmp:/app/tmp" \
+  nnunet-resnetm:v2 \
+  python -u main.py --data_path /input --output_path /output --nnUNet_results /app/checkpoints
+
+```
 
 ## 🧱 Common Setup & Debugging Issues
 
