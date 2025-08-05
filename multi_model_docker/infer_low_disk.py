@@ -19,6 +19,7 @@ import scipy
 import pandas as pd
 import math
 import time
+from tqdm import tqdm
 
 from batchgenerators.utilities.file_and_folder_operations import *
 #import surface_distance
@@ -423,7 +424,7 @@ def perform_inference_step(inference_folder, input_folder_nnunet, ensemble_code)
     }
 
     ensemble_list = ensemble_code.split("_")
-    for idx, model_key in enumerate(ensemble_list):
+    for idx, model_key in enumerate(tqdm(ensemble_list, desc="Running models")):
         if model_key not in model_map:
             raise ValueError(f"Unknown model key: {model_key}")
 
@@ -453,35 +454,41 @@ def perform_inference_step(inference_folder, input_folder_nnunet, ensemble_code)
         print(command)
 
         # Run subprocess
-        proc = subprocess.Popen(
-            command,
-            shell=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
-            text=True,
-            bufsize=1
-        )
+        # proc = subprocess.Popen(
+        #     command,
+        #     shell=True,
+        #     stdout=subprocess.PIPE,
+        #     stderr=subprocess.STDOUT,
+        #     text=True,
+        #     bufsize=1
+        # )
 
-        stdout_log = []
-        for line in proc.stdout:
-            print(line, end="")
-            stdout_log.append(line)
+        # stdout_log = []
+        # for line in proc.stdout:
+        #     print(line, end="")
+        #     stdout_log.append(line)
 
-        proc.wait()
+        # proc.wait()
 
-        class Result:
-            def __init__(self, returncode, stdout):
-                self.returncode = returncode
-                self.stdout = stdout
-                self.stderr = None
+        # class Result:
+        #     def __init__(self, returncode, stdout):
+        #         self.returncode = returncode
+        #         self.stdout = stdout
+        #         self.stderr = None
 
-        result = Result(proc.returncode, "".join(stdout_log))
+        # result = Result(proc.returncode, "".join(stdout_log))
 
-        print("Command output:")
-        print(result.stdout)
-        if result.stderr:
-            print("Command error:")
-            print(result.stderr)
+        # print("Command output:")
+        # print(result.stdout)
+        # if result.stderr:
+        #     print("Command error:")
+        #     print(result.stderr)
+
+        # Run model inference quietly
+        subprocess.run(command, shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
+        # Optional: status summary
+        print(f"✓ Finished inference for {model_key}")
 
         # === Ensemble aggregation ===
         ensemble_prob_path = join(inference_folder, 'ensemble', ensemble_code, 'prob')
@@ -658,25 +665,131 @@ def thresholding_step(min_volume_threshold_WT, min_volume_threshold_TC, min_volu
         concurrent.futures.wait(futures)
     print(f"files after thresholding {listdir(out_dir)}")
 
+def ratio_adaptive_postprocessing_step(inference_folder, ensemble_code, save_csv=True):
+    raw_prediction_dir = join(inference_folder, 'ensemble', ensemble_code, 'raw')
+    output_dir = join(inference_folder, 'ensemble', ensemble_code, 'ET005WT_WT05WT')
+    maybe_mkdir_p(output_dir)
+    ratio_adaptive_postprocessing(
+        raw_prediction_dir=raw_prediction_dir,
+        output_dir=output_dir,
+        save_csv=save_csv
+    )
+
+def ratio_adaptive_postprocessing(raw_prediction_dir, output_dir, et_ratio=0.0005, wt_ratio=0.005, save_csv=True):
+    """
+    Applies ratio-adaptive postprocessing:
+    - Removes small ET (label=3) regions based on a fraction of avg WT volume.
+    - Removes small WT components regardless of label.
+    Optionally logs detailed and summary CSVs.
+    """
+    from scipy.ndimage import label
+    import csv
+    maybe_mkdir_p(output_dir)
+
+    if save_csv:
+        log_detail_et = os.path.join(output_dir, "et_conversion_log.csv")
+        log_summary_et = os.path.join(output_dir, "et_conversion_summary.csv")
+        log_detail_wt = os.path.join(output_dir, "wt_removal_log.csv")
+        log_summary_wt = os.path.join(output_dir, "wt_removal_summary.csv")
+
+        with open(log_detail_et, 'w', newline='') as f1, open(log_summary_et, 'w', newline='') as f2:
+            csv.writer(f1).writerow(["Case", "Region_ID", "Voxel_Count", "Action"])
+            csv.writer(f2).writerow(["Case", "Adaptive_ET_Threshold", "Converted_ET_Regions_Over_10_Voxels"])
+        with open(log_detail_wt, 'w', newline='') as f1, open(log_summary_wt, 'w', newline='') as f2:
+            csv.writer(f1).writerow(["Case", "Region_ID", "Voxel_Count", "Removed_Label"])
+            csv.writer(f2).writerow(["Case", "WT_Threshold", "Total_Removed_Regions", "Total_Removed_Voxels"])
+
+    def process_case(pred_data, case_name):
+        out = pred_data.copy()
+        wt_mask = np.isin(out, [1, 2, 3])
+        wt_labeled, num_wt = label(wt_mask)
+        total_voxels, N_wt = 0, 0
+        for i in range(1, num_wt + 1):
+            region = (wt_labeled == i)
+            size = region.sum()
+            if size >= 10:
+                total_voxels += size
+                N_wt += 1
+        avg_wt_volume = total_voxels / N_wt if N_wt > 0 else 0
+
+        # ET thresholding
+        et_thresh = min(et_ratio * avg_wt_volume, 100)
+        et_mask = (out == 3)
+        et_labeled, n_et = label(et_mask)
+        converted_over_10_count = 0
+        for i in range(1, n_et + 1):
+            region = (et_labeled == i)
+            size = region.sum()
+            if size < et_thresh:
+                out[region] = 0
+                if save_csv:
+                    with open(log_detail_et, 'a', newline='') as f:
+                        csv.writer(f).writerow([case_name, i, size, "ET->Discard"])
+                if size > 10:
+                    converted_over_10_count += 1
+        if save_csv:
+            with open(log_summary_et, 'a', newline='') as f:
+                csv.writer(f).writerow([case_name, round(et_thresh, 2), converted_over_10_count])
+
+        # WT thresholding
+        wt_mask = np.isin(out, [1, 2, 3])
+        wt_labeled, num = label(wt_mask)
+        total_voxels, N_valid = 0, 0
+        for i in range(1, num + 1):
+            region = (wt_labeled == i)
+            size = region.sum()
+            if size >= 10:
+                total_voxels += size
+                N_valid += 1
+        avg_wt_volume = total_voxels / N_valid if N_valid > 0 else 0
+        wt_thresh = max(min(wt_ratio * avg_wt_volume, 250), 10)
+
+        removed_count, removed_voxels = 0, 0
+        for i in range(1, num + 1):
+            region = (wt_labeled == i)
+            size = region.sum()
+            if size < wt_thresh:
+                label_vals, counts = np.unique(out[region], return_counts=True)
+                dominant_label = label_vals[np.argmax(counts)]
+                out[region] = 0
+                removed_count += 1
+                removed_voxels += size
+                if save_csv:
+                    with open(log_detail_wt, 'a', newline='') as f:
+                        csv.writer(f).writerow([case_name, i, size, f"Label_{dominant_label}"])
+        if save_csv:
+            with open(log_summary_wt, 'a', newline='') as f:
+                csv.writer(f).writerow([case_name, round(wt_thresh, 2), removed_count, removed_voxels])
+
+        return out
+
+    all_preds = sorted([f for f in os.listdir(raw_prediction_dir) if f.endswith(".nii.gz")])
+    for fname in tqdm(all_preds, desc="Running ratio-adaptive postprocessing"):
+        pred_path = os.path.join(raw_prediction_dir, fname)
+        pred_nii = nib.load(pred_path)
+        pred_data = pred_nii.get_fdata().astype(np.uint8)
+        refined_data = process_case(pred_data, fname)
+        nib.save(nib.Nifti1Image(refined_data, affine=pred_nii.affine), os.path.join(output_dir, fname))
+
 
 ################################################################################
 # CONVERT BACK TO BRATS2025
 ################################################################################
-def convert_labels_back_to_BraTS(seg: np.ndarray):
-    """
-    BraTS2023 changed the labels to ET — label 3, ED — label 2 and NCR — label 1
-    The input of the nnUNet requires labels to be sequencial, so the ED — label 2 was replaced with label 1 and NCR — label 1 with label 2 for training 
-    Now we have to change it back.
-    #IN:
-        seg: Numpy array of the segmentation
-    #OUT:
-        new_seg: Numpy array with values corrected
-    """
-    new_seg = np.zeros_like(seg)
-    new_seg[seg == 1] = 2
-    new_seg[seg == 3] = 3
-    new_seg[seg == 2] = 1
-    return new_seg
+# def convert_labels_back_to_BraTS(seg: np.ndarray):
+#     """
+#     BraTS2023 changed the labels to ET — label 3, ED — label 2 and NCR — label 1
+#     The input of the nnUNet requires labels to be sequencial, so the ED — label 2 was replaced with label 1 and NCR — label 1 with label 2 for training 
+#     Now we have to change it back.
+#     #IN:
+#         seg: Numpy array of the segmentation
+#     #OUT:
+#         new_seg: Numpy array with values corrected
+#     """
+#     new_seg = np.zeros_like(seg)
+#     new_seg[seg == 1] = 2
+#     new_seg[seg == 3] = 3
+#     new_seg[seg == 2] = 1
+#     return new_seg
 
 def load_convert_save(filename, input_folder, output_folder):
     """
@@ -734,3 +847,27 @@ def convert_back_BraTS_step(min_volume_threshold_WT, min_volume_threshold_TC, mi
     #shutil.make_archive(f"{folder_out_zip}", 'zip', output_folder)
     print("ALL DONE")
 
+def convert_back_BraTS_step_ratio_adaptive(inference_folder, ensemble_code, brats_final_inference):
+    """
+    Final step for ratio-adaptive postprocessing:
+    Converts labels from ET005WT_WT05WT folder to BraTS2023 convention and saves them to final output path.
+    
+    #IN:
+        inference_folder: Path for the inference folder.
+        ensemble_code: Ensemble code.
+        brats_final_inference: Path to save the final segmentation (in BraTS2023 convention).
+    """
+    input_folder = join(inference_folder, "ensemble", ensemble_code, "ET005WT_WT05WT")
+    output_folder = brats_final_inference  # usually /output in submission
+
+    print(f"Converting final masks from: {input_folder}")
+    print(f"Saving converted BraTS masks to: {output_folder}")
+
+    convert_labels_back_to_BraTS_2023_convention_folder(
+        input_folder=input_folder,
+        output_folder=output_folder,
+        num_processes=8
+    )
+
+    print(f"Files in output folder: {listdir(output_folder)}")
+    print("ALL DONE")
