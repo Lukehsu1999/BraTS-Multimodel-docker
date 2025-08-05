@@ -99,6 +99,8 @@ FileNotFoundError: [Errno 2] No such file or directory: '/media/volume1/.../data
 - **Note:**  
 This issue is unresolved properly — ideally, I want to modify the nnUNet logic to accept arbitrary paths.
 
+- ** Final Fix:**
+fix the fixed path bug in nnUNet_install/nnUNetv2/paths.py
 ---
 
 ### 5. 💥 "Bus Error (Core Dump)" During Inference
