@@ -34,6 +34,14 @@ docker run --rm --network none --gpus all \
   -v "$PWD/output:/output:rw" \
   nnunet-resnetm-resnetl:v5 
 ```
+Run locally:
+```
+docker run --rm --network none --gpus all \
+  --memory=16G --shm-size=4G \
+  -v "/mnt/c/Users/C0005/Desktop/imagesTs-AllTypes:/input:ro" \
+  -v "/mnt/c/Users/C0005/Desktop/7models_rap:/output:rw" \
+  nnunet-7models-rap:v0
+```
 With extra shared memory (16GB), mounted on input and output
 ```
 docker run --rm --gpus all \
