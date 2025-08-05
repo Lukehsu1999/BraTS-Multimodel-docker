@@ -5,8 +5,10 @@ from os.path import join
 from infer_low_disk import (
     convert_data_step, 
     perform_inference_step, 
-    thresholding_step, 
-    convert_back_BraTS_step
+    #thresholding_step, 
+    #convert_back_BraTS_step,
+    ratio_adaptive_postprocessing_step,
+    convert_back_BraTS_step_ratio_adaptive
 )
 
 def infer():
@@ -45,22 +47,37 @@ def infer():
     # === Step 3: Skipped in low-disk mode
     print("Step 3: skipping (ensemble accumulation handled already)")
 
-    # === Step 4: Thresholding
-    print("Step 4: thresholding_step")
-    thresholding_step(
-        min_volume_threshold_WT=250,
-        min_volume_threshold_TC=150,
-        min_volume_threshold_ET=100,
+    # # === Step 4: Thresholding
+    # print("Step 4: thresholding_step")
+    # thresholding_step(
+    #     min_volume_threshold_WT=250,
+    #     min_volume_threshold_TC=150,
+    #     min_volume_threshold_ET=100,
+    #     inference_folder=inference_folder,
+    #     ensemble_code=ensemble_code
+    # )
+
+    # # === Step 5: Convert final masks to BraTS format
+    # print("Step 5: convert_back_BraTS_step")
+    # convert_back_BraTS_step(
+    #     min_volume_threshold_WT=250,
+    #     min_volume_threshold_TC=150,
+    #     min_volume_threshold_ET=100,
+    #     inference_folder=inference_folder,
+    #     ensemble_code=ensemble_code,
+    #     brats_final_inference=output_path
+    # )
+    # === Step 4: Ratio-Adaptive Postprocessing
+    print("Step 4: ratio_adaptive_postprocessing_step")
+    ratio_adaptive_postprocessing_step(
         inference_folder=inference_folder,
-        ensemble_code=ensemble_code
+        ensemble_code=ensemble_code,
+        save_csv=True  # True for local test, False for submission
     )
 
     # === Step 5: Convert final masks to BraTS format
-    print("Step 5: convert_back_BraTS_step")
-    convert_back_BraTS_step(
-        min_volume_threshold_WT=250,
-        min_volume_threshold_TC=150,
-        min_volume_threshold_ET=100,
+    print("Step 5: convert_back_BraTS_step_ratio_adaptive")
+    convert_back_BraTS_step_ratio_adaptive(
         inference_folder=inference_folder,
         ensemble_code=ensemble_code,
         brats_final_inference=output_path
