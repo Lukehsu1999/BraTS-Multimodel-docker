@@ -1,5 +1,5 @@
 # Base image with PyTorch + CUDA
-FROM --platform=linux/amd64 pytorch/pytorch:2.2.0-cuda12.1-cudnn8-runtime
+FROM pytorch/pytorch:2.2.2-cuda11.8-cudnn8-devel
 
 LABEL authors="Luke Hsu"
 
@@ -8,6 +8,7 @@ WORKDIR /app
 
 # Install Python dependencies
 COPY requirements.txt .
+
 RUN pip install --upgrade pip && \
     pip install -r requirements.txt
 
@@ -20,6 +21,11 @@ RUN pip install -e .
 COPY dynamic-network-architectures /app/dynamic-network-architectures
 WORKDIR /app/dynamic-network-architectures
 RUN pip install -e .
+
+# For UMamba
+RUN pip install torch==2.2.2 torchvision==0.17.2 --index-url https://download.pytorch.org/whl/cu118 && \
+    pip install mamba-ssm==1.2.0.post1 && \
+    pip install "numpy<2.0"
 
 # Return to main app directory
 WORKDIR /app
