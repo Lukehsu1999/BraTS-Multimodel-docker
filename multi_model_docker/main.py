@@ -35,7 +35,7 @@ def infer():
 
     # === Step 2: Inference
     print("Step 2: perform_inference_step")
-    ensemble_code = 'ResNetM_ResNetL'  # update if needed
+    ensemble_code = 'ResNetM_ResNetL_ResNetXL_FinetuneM_FinetuneL_FinetuneXL_UMamba'  # update if needed
     perform_inference_step(
         inference_folder=inference_folder,
         input_folder_nnunet=converted_dataset,
