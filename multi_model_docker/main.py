@@ -2,6 +2,7 @@ import os
 import torch
 from os import listdir
 from os.path import join
+import shutil
 from infer_low_disk import (
     convert_data_step, 
     perform_inference_step, 
@@ -82,6 +83,17 @@ def infer():
         ensemble_code=ensemble_code,
         brats_final_inference=output_path
     )
+
+    # === Step 6: Clean up
+    print("Step 6: clean up the intermediate files in /output/tmp")
+    cleanup_tmp = True  # set to False for debugging
+
+    if cleanup_tmp:
+        try:
+            shutil.rmtree(tmp_path)
+            print(f"Cleaned up temporary folder: {tmp_path}")
+        except Exception as e:
+            print(f"Failed to remove temporary folder {tmp_path}: {e}")
 
     print("DONE")
 
