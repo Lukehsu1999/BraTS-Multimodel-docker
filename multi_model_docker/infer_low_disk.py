@@ -404,7 +404,22 @@ def perform_inference_step(inference_folder, input_folder_nnunet, ensemble_code)
     model_map = {
         "ResNetM": "nnUNetTrainer__nnUNetResEncUNetMPlans__3d_fullres",
         "ResNetL": "nnUNetTrainer__nnUNetResEncUNetLPlans__3d_fullres",
+        "ResNetXL": "nnUNetTrainer__nnUNetResEncUNetXLPlans__3d_fullres",
+        "FinetuneM": "nnUNetTrainerDiceTopK10FocalFineTuning1000Eps__nnUNetResEncUNetMPlans__3d_fullres",
+        "FinetuneL": "nnUNetTrainerDiceTopK10FocalFineTuning__nnUNetResEncUNetLPlans__3d_fullres",
+        "FinetuneXL": "nnUNetTrainerDiceTopK10FocalFineTuning__nnUNetResEncUNetXLPlans__3d_fullres",
+        "UMamba": "nnUNetTrainerUMambaBot__nnUNetPlans__3d_fullres"
         # Add more models here
+    }
+
+    dataset_map = {
+        "ResNetM": "Dataset601_BraTS",
+        "ResNetL": "Dataset601_BraTS",
+        "ResNetXL": "Dataset601_BraTS",
+        "FinetuneM": "Dataset603_BraTS",
+        "FinetuneL": "Dataset603_BraTS",
+        "FinetuneXL": "Dataset603_BraTS",
+        "UMamba": "Dataset603_BraTS",
     }
 
     ensemble_list = ensemble_code.split("_")
@@ -415,13 +430,13 @@ def perform_inference_step(inference_folder, input_folder_nnunet, ensemble_code)
         trainer_folder = model_map[model_key]
         trainer, plan, config = trainer_folder.split("__")
 
-        results_path = join(os.environ['nnUNet_results'], "Dataset601_BraTS", trainer_folder)
+        results_path = join(os.environ['nnUNet_results'], dataset_map[model_key], trainer_folder)
         print("OS environment nnUNet_results:", os.environ['nnUNet_results'])
         print(f"Resolved model_training_output_dir: {results_path}")
         maybe_mkdir_p(results_path)
 
         # Output paths
-        dataset_id = "Dataset601_BraTS"
+        dataset_id = dataset_map[model_key]
         output_folder = join(inference_folder, "ensemble", model_key, "tmp")
         maybe_mkdir_p(output_folder)
 
