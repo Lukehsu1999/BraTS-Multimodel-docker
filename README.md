@@ -38,9 +38,32 @@ Run locally:
 ```
 docker run --rm --network none --gpus all \
   --memory=16G --shm-size=4G \
-  -v "/mnt/c/Users/C0005/Desktop/imagesTs-AllTypes:/input:ro" \
-  -v "/mnt/c/Users/C0005/Desktop/7models_rap:/output:rw" \
-  nnunet-7models-rap:v0
+  -v "/mnt/c/Users/C0005/Desktop/brats25_segmentation_samples/data:/input:ro" \
+  -v "/mnt/c/Users/C0005/Desktop/brats25_segmentation_samples/7models_rap:/output:rw" \
+  nnunet-7models-rap:v1
+```
+```
+docker run --rm --network none --gpus all \
+  --memory=16G --shm-size=4G \
+  -v "/mnt/c/Users/C0005/Desktop/subtype_input:/input:ro" \
+  -v "/mnt/c/Users/C0005/Desktop/5models_rap:/output:rw" \
+  nnunet-5models-rap:v1
+```
+Run the uploaded docker:
+```
+docker run --rm --network none --gpus all \
+  --memory=16G --shm-size=4G \
+  -v "/mnt/c/Users/C0005/Desktop/brats25_segmentation_samples/data:/input:ro" \
+  -v "/mnt/c/Users/C0005/Desktop/brats25_segmentation_samples/7models_rap:/output:rw" \
+  docker.synapse.org/syn68241107/nnunet-7models-rap:v1
+```
+Run the uploaded docker (without GPU):
+```
+CUDA_VISIBLE_DEVICES="" docker run --rm --network none \
+  --memory=16G --shm-size=4G \
+  -v "/mnt/c/Users/C0005/Desktop/brats25_segmentation_samples/data:/input:ro" \
+  -v "/mnt/c/Users/C0005/Desktop/brats25_segmentation_samples/7models_rap:/output:rw" \
+  docker.synapse.org/syn68241107/nnunet-7models-rap:v1
 ```
 With extra shared memory (16GB), mounted on input and output
 ```
