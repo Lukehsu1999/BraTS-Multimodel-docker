@@ -11,8 +11,9 @@ from infer_low_disk import (
     ratio_adaptive_postprocessing_step,
     convert_back_BraTS_step_ratio_adaptive
 )
+import argparse
 
-def infer():
+def infer(device):
     # === Standard input/output locations (BraTS requirement)
     data_path = "/input"
     output_path = "/output"
@@ -42,7 +43,8 @@ def infer():
     perform_inference_step(
         inference_folder=inference_folder,
         input_folder_nnunet=converted_dataset,
-        ensemble_code=ensemble_code
+        ensemble_code=ensemble_code,
+        device=device
     )
 
     # === Step 3: Skipped in low-disk mode
@@ -98,4 +100,7 @@ def infer():
     print("DONE")
 
 if __name__ == "__main__":
-    infer()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--device", type=str, default="cuda", help="cuda or cpu")
+    args = parser.parse_args()
+    infer(device=args.device)
