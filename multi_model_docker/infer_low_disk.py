@@ -387,7 +387,7 @@ def perform_inference_step(inference_folder, input_folder_nnunet, ensemble_code)
     maybe_mkdir_p(ensemble_label_path)
     convert_prob_to_label(prob_folder=ensemble_prob_path, ensemble_label_path=ensemble_label_path, input_folder_path=input_folder_nnunet)
 """
-def perform_inference_step(inference_folder, input_folder_nnunet, ensemble_code):
+def perform_inference_step(inference_folder, input_folder_nnunet, ensemble_code, device="cuda"):
     """
     Perform inference using one or more nnUNet models identified by `ensemble_code`.
     Supports multi-model ensembling by separating with underscores, e.g., 'ResNetM_ResNetL'.
@@ -447,7 +447,7 @@ def perform_inference_step(inference_folder, input_folder_nnunet, ensemble_code)
             f"-i {input_folder_nnunet} "
             f"-o {output_folder} "
             f"-f all -tr {trainer} -c {config} -p {plan} "
-            f"-device cuda --save_probabilities --disable_tta"
+            f"-device {device} --save_probabilities --disable_tta"
         )
 
         print("Running:")
