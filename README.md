@@ -43,6 +43,17 @@ docker run --rm --network none --gpus all \
   nnunet-7models-rap:v1
 ```
 ```
+docker run \
+    --rm \
+    --network none \
+    --runtime=nvidia \
+    --env NVIDIA_VISIBLE_DEVICES=0 \
+    -v "/mnt/c/Users/C0005/Desktop/brats25_segmentation_samples/data:/input:ro" \
+    -v "/mnt/c/Users/C0005/Desktop/brats25_segmentation_samples/7models_rap:/output:rw" \
+    --memory=16G --shm-size 4G \
+    docker.synapse.org/syn68241107/nnunet-7models-rap:v1
+```
+```
 docker run --rm --network none --gpus all \
   --memory=16G --shm-size=4G \
   -v "/mnt/c/Users/C0005/Desktop/subtype_input:/input:ro" \
@@ -59,11 +70,7 @@ docker run --rm --network none --gpus all \
 ```
 Run the uploaded docker (without GPU):
 ```
-CUDA_VISIBLE_DEVICES="" docker run --rm --network none \
-  --memory=16G --shm-size=4G \
-  -v "/mnt/c/Users/C0005/Desktop/brats25_segmentation_samples/data:/input:ro" \
-  -v "/mnt/c/Users/C0005/Desktop/brats25_segmentation_samples/7models_rap:/output:rw" \
-  docker.synapse.org/syn68241107/nnunet-7models-rap:v1
+nnunet-7models-rap-cpu:v1 python main.py --device cpu docker run --rm --network none --memory=16G --shm-size=4G -v "/mnt/c/Users/C0005/Desktop/brats25_segmentation_samples/data:/input:ro" -v "/mnt/c/Users/C0005/Desktop/brats25_segmentation_samples/7models_rap_cpu:/output:rw" nnunet-7models-rap-cpu:v1 python main.py --device cpu
 ```
 With extra shared memory (16GB), mounted on input and output
 ```
