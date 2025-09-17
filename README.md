@@ -10,6 +10,7 @@
 ---
 
 ## 🛠️ Build and Run Docker Image
+Open your Ubuntu terminal
 
 Clean up (optional):
 
