@@ -22,6 +22,34 @@ It encapsulates the complete **inference and evaluation pipeline** for reproduci
 Experimental training pipelines and ablation studies were developed in a **separate internal repository** by *Luke Hsu* and *Khoa Nguyen*.  
 For inquiries or collaboration, please contact the authors.
 
+---
+
+## 🧩 Problem Statement
+The **MICCAI BraTS GoAT Challenge** (*Brain Tumor Segmentation Generalizability Across Tumors*) aims to test whether segmentation models can **generalize across multiple brain tumor types and imaging domains** — a step toward clinically robust AI systems.
+
+Unlike previous BraTS editions that focused only on *adult gliomas*, BraTS-GoAT expands to include:
+- **Adult gliomas**
+- **Sub-Saharan African gliomas**
+- **Meningiomas**
+- **Brain metastases**
+- **Pediatric brain tumors**
+
+Each dataset differs in **scanner type, acquisition protocol, lesion morphology, and patient demographics**, making cross-tumor generalization extremely challenging.
+
+Participants must develop algorithms capable of:
+- Segmenting **tumor subregions** (Enhancing Tumor *ET*, Tumor Core *TC*, Whole Tumor *WT*)  
+- Performing consistently **across institutions and tumor types**
+- Working under **limited supervision** with incomplete labels and varying tumor anatomy  
+
+<p align="center">
+  <img src="assets/brats_tumor_types.png" width="85%">
+</p>
+<p align="center"><em>Figure 1. Illustration of tumor heterogeneity across different patient populations (Adult glioma, Meningioma, Brain metastasis, Pediatric tumor).</em></p>
+
+This challenge simulates a real-world scenario:  
+> Can a model trained on certain diseases adapt to new tumor types — with minimal data — and still maintain reliable segmentation accuracy?
+
+
 ## 🔗 References
 
 - **Official BraTS Docker Submission Guide:**  
