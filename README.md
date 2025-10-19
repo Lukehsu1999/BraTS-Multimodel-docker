@@ -52,6 +52,77 @@ The goal is to build algorithms that can:
   Images adapted from <a href="https://radiopaedia.org/" target="_blank">Radiopaedia.org</a> under CC BY-NC-SA 3.0 license.</em>
 </p>
 
+---
+
+## 🧠 Solution & System Design
+
+Our segmentation system improves **cross-tumor generalization** through two core modules — **Pseudo-Label Supervised Fine-Tuning** and **Ratio-Adaptive Postprocessing** — built atop a diverse ensemble of nnU-Net and U-Mamba architectures.  
+These components complement each other: pseudo-labels expand supervision to unseen tumor patterns, while ratio-adaptive rules refine predictions without relying on tumor-type information.
+
+---
+
+### 🧩 Pseudo-Label Supervised Fine-Tuning
+**Motivation:**  
+The labeled BraTS-GoAT dataset captures only part of the tumor diversity across glioma, meningioma, metastasis, and pediatric cases.  
+To better represent unseen tumor phenotypes, we leveraged unlabeled scans via pseudo-labeling.
+
+**Pipeline:**  
+1. Train three **nnU-Net ResEnc** models (M/L/XL) on labeled data.  
+2. **Ensemble** their softmax outputs to stabilize predictions (WT ≈ 0.81 Dice, TC ≈ 0.82).  
+3. Apply **conservative filtering** — removing only components < 10 voxels to preserve sensitivity.  
+4. Merge the refined pseudo-labels with the labeled set → a mixed dataset of 2,489 cases.  
+5. Fine-tune ResEnc-L/XL and U-MambaBot models on this combined set.
+
+**Insight:**  
+Pseudo-label supervision improved generalization, especially for **Whole Tumor (WT)** segmentation, by exposing the model to greater lesion variability.  
+While effects on fine subregions were modest, pseudo-labels enriched the ensemble’s diversity and robustness across domains.
+
+<p align="center">
+  <img src="assets/brats_pseudo_labeling.png" width="80%">
+</p>
+<p align="center"><em>Figure 2. Pseudo-label generation and fine-tuning pipeline.</em></p>
+
+---
+
+### ⚖️ Ratio-Adaptive Postprocessing
+**Challenge:**  
+Fixed thresholding rules from prior BraTS challenges fail under GoAT’s cross-tumor variability — a single cutoff cannot fit both large gliomas and small metastases.
+
+**Approach:**  
+We designed a **ratio-adaptive thresholding** strategy that scales cutoffs based on each case’s predicted tumor volume:
+
+\[
+\text{ET}_{thresh} = \min(0.0005 \times \text{WT}_{vol}, 100), \quad
+\text{WT}_{thresh} = \max(\min(0.005 \times \text{WT}_{vol}, 250), 10)
+\]
+
+This formulation blends literature-inspired bounds with adaptive scaling, removing small noisy components while preserving valid small lesions.
+
+**Effect:**  
+Compared with fixed thresholds, ratio-adaptive filtering reduced **ET false positives from 66 → 17** while limiting false negatives to 68, yielding a more balanced precision–recall trade-off and higher lesion-wise Dice (ET ↑ 0.009, WT ↑ 0.017).  
+The strategy proved stable across all tumor types without needing explicit type labels.
+
+<p align="center">
+  <img src="assets/brats_ratio_adaptive.png" width="80%">
+</p>
+<p align="center"><em>Figure 3. Ratio-adaptive postprocessing dynamically adjusts thresholds by tumor volume, improving lesion completeness.</em></p>
+
+---
+
+### 🌊 TumorSurfer: Anatomically Guided Exploration
+**Concept:**  
+To bridge tumor and healthy-tissue understanding, we explored **TumorSurfer**, a multitask model jointly predicting anatomical structures and tumor subregions.  
+Using **FastSurfer-derived anatomical labels** refined by our own *SimpleSurfer* network, TumorSurfer encouraged structural awareness in boundary learning.
+
+Although it achieved **Dice > 0.9** for major anatomical regions (white matter, cortex, ventricles), tumor segmentation lagged due to label imbalance and shared-capacity effects.  
+Future directions include coupling anatomical priors with the tumor model through attention or anatomy-aware postprocessing.
+
+<p align="center">
+  <img src="assets/tumor_surfer_concept.png" width="75%">
+</p>
+<p align="center"><em>Figure 4. TumorSurfer concept: integrating anatomical structure awareness with pathological segmentation.</em></p>
+
+
 
 ## 🔗 References
 
