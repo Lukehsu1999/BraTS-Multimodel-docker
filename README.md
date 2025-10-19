@@ -13,7 +13,7 @@
 </p>
 
 ## 📘 Repository Overview  
-The [**MICCAI BraTS GoAT Challenge**](https://www.synapse.org/Synapse:syn64153130/wiki/631456) (*Brain Tumor Segmentation Generalizability Across Tumors*) is an international competition at **MICCAI**, evaluating how well segmentation algorithms **generalize across tumor types, imaging domains, and institutions**.
+The [**MICCAI BraTS GoAT Challenge**](https://www.synapse.org/Synapse:syn64153130/wiki/631456) (*Brain Tumor Segmentation Generalizability Across Tumors*) is an international competition at **MICCAI** (Medical Image Computing and Computer-Assisted Intervention), evaluating how well segmentation algorithms **generalize across tumor types, demographics, and institutions**.
 
 This repository provides the **official Dockerized implementation** of our **1st-place solution**, containing the complete **inference and evaluation pipeline** used for submission to the MICCAI evaluation server.
 
@@ -28,7 +28,7 @@ Unlike earlier BraTS editions limited to adult gliomas, GoAT includes:
 **Adult gliomas**, **African gliomas**, **Meningiomas**, **Brain metastases**, and **Pediatric tumors** — each differing in scanner type, lesion pattern, and demographics.
 
 The goal is to build algorithms that can:
-- Segment key **tumor subregions** (*ET*, *TC*, *WT*)  
+- Segment key **tumor subregions** (*ET (Enhancing Tumor)*, *NETC (Non-Enhancing Tumor Core)*, *SNFH (Surrounding FLAIR Hyperintensity / Edema)*)  
 - Perform robustly **across institutions and tumor types**
   
 <table align="center">
@@ -49,7 +49,7 @@ The goal is to build algorithms that can:
 </table>
 <p align="center">
   <em> 
-  Images adapted from <a href="https://radiopaedia.org/" target="_blank">Radiopaedia.org</a> under CC BY-NC-SA 3.0 license.</em>
+  Images adapted from <a href="https://radiopaedia.org/" target="_blank">Radiopaedia.org</a></em>
 </p>
 
 ---
@@ -68,7 +68,7 @@ To better represent unseen tumor phenotypes, we leveraged unlabeled scans via ps
 
 **Pipeline:**  
 1. Train three **nnU-Net ResEnc** models (M/L/XL) on labeled data.  
-2. **Ensemble** their softmax outputs to stabilize predictions (WT ≈ 0.81 Dice, TC ≈ 0.82).  
+2. **Ensemble** their softmax outputs to stabilize predictions (with official validation lesion-wise Dice of 0.82).  
 3. Apply **conservative filtering** — removing only components < 10 voxels to preserve sensitivity.  
 4. Merge the refined pseudo-labels with the labeled set → a mixed dataset of 2,489 cases.  
 5. Fine-tune ResEnc-L/XL and U-MambaBot models on this combined set.
@@ -80,7 +80,7 @@ While effects on fine subregions were modest, pseudo-labels enriched the ensembl
 <p align="center">
   <img src="https://github.com/Lukehsu1999/BraTS-Multimodel-docker/blob/main/diagrams/PseudoLabelingPipeline.png" width="75%">
 </p>
-<p align="center"><em>Figure 2. Pseudo-label generation and fine-tuning pipeline.</em></p>
+<p align="center"><em>Pseudo-label generation pipeline</em></p>
 
 ---
 
@@ -91,10 +91,11 @@ Fixed thresholding rules from prior BraTS challenges fail under GoAT’s cross-t
 **Approach:**  
 We designed a **ratio-adaptive thresholding** strategy that scales cutoffs based on each case’s predicted tumor volume:
 
-\[
-\text{ET}_{thresh} = \min(0.0005 \times \text{WT}_{vol}, 100), \quad
-\text{WT}_{thresh} = \max(\min(0.005 \times \text{WT}_{vol}, 250), 10)
-\]
+```
+WT_vol = average predicted Whole Tumor component size in this case
+ET_thresh = min(0.0005 * WT_vol, 100)
+WT_thresh = max(min(0.005 * WT_vol, 250), 10)
+```
 
 This formulation blends literature-inspired bounds with adaptive scaling, removing small noisy components while preserving valid small lesions.
 
