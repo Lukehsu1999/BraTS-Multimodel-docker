@@ -12,6 +12,13 @@
   <img src="https://github.com/Lukehsu1999/Lukehsu1999/blob/main/MICCAI_BraTS_Trophy.png" width="45%" valign="middle"/>
 </p>
 
+## 📘 Repository Overview  
+This repository contains the **official Dockerized implementation** of our 1st-place solution in the MICCAI 2025 BraTS GoAT Challenge.  
+It encapsulates the complete **inference and evaluation pipeline** for reproducibility and submission to the MICCAI evaluation server.  
+
+Experimental training pipelines and ablation studies were developed in a **separate internal repository** by *Luke Hsu* and *Khoa Nguyen*.  
+For inquiries or collaboration, please contact the authors.
+
 ## 🔗 References
 
 - **Official BraTS Docker Submission Guide:**  
