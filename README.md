@@ -27,7 +27,7 @@ For inquiries or collaboration, please contact the authors.
   - [Ratio-Adaptive Postprocessing](https://github.com/Lukehsu1999/BraTS-Multimodel-docker/blob/main/README.md#%EF%B8%8F-ratio-adaptive-postprocessing)
 - [Exploratory Module: TumorSurfer](https://github.com/Lukehsu1999/BraTS-Multimodel-docker/edit/main/README.md#-exploratory-module-tumorsurfer)
 - [Results](https://github.com/Lukehsu1999/BraTS-Multimodel-docker/blob/main/README.md#-results)
-- [References to Reproduce](https://github.com/Lukehsu1999/BraTS-Multimodel-docker/blob/main/README.md#-references-to-reproduce)
+- [References for Dockerization](https://github.com/Lukehsu1999/BraTS-Multimodel-docker/edit/main/README.md#-references-for-dockerization)
 - [Build and Run Docker Image](https://github.com/Lukehsu1999/BraTS-Multimodel-docker/blob/main/README.md#%EF%B8%8F-build-and-run-docker-image)
 - [Common Setup & Debugging Issues](https://github.com/Lukehsu1999/BraTS-Multimodel-docker/blob/main/README.md#-common-setup--debugging-issues)
 
@@ -175,7 +175,7 @@ Future directions include coupling anatomical priors with the tumor model throug
 
 ---
 
-## 🔗 References to Reproduce
+## 🔗 References for Dockerization
 
 - **Official BraTS Docker Submission Guide:**  
   https://www.synapse.org/Synapse:syn64153130/wiki/633742
