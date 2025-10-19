@@ -20,6 +20,16 @@ This repository provides the **official Dockerized implementation** of our **1st
 Experimental training pipelines and ablation studies were developed in a **separate internal repository** by *Luke Hsu* and *Khoa Nguyen*.  
 For inquiries or collaboration, please contact the authors.
 
+## 📘 Table of Contents
+- [Problem Statement]()
+- [Methods]()
+  - [Pseudo-Label Supervised Finetuning]()
+  - [Ratio-Adaptive Postprocessing]()
+- [Innovative Exploration: TumorSurfer]()
+- [Results]()
+- [References to Reproduce]()
+- [Build and Run Docker Image]()
+- [Common Setup & Debugging Issues]()
 
 ## 🧩 Problem Statement
 The **MICCAI BraTS GoAT Challenge** (*Brain Tumor Segmentation Generalizability Across Tumors*) evaluates how well segmentation models **generalize across tumor types**, a key step toward clinically reliable AI.
@@ -54,7 +64,7 @@ The goal is to build algorithms that can:
 
 ---
 
-## 🧠 Solution & System Design
+## 🧠 Methods
 
 Our segmentation system improves **cross-tumor generalization** through two core modules — **Pseudo-Label Supervised Fine-Tuning** and **Ratio-Adaptive Postprocessing** — built atop a diverse ensemble of nnU-Net and U-Mamba architectures.  
 These components complement each other: pseudo-labels expand supervision to unseen tumor patterns, while ratio-adaptive rules refine predictions without relying on tumor-type information.
@@ -108,7 +118,7 @@ The strategy proved stable across all tumor types without needing explicit type 
 
 ---
 
-## 🌊 TumorSurfer: Anatomically Guided Exploration
+## 🌊 Innovative Exploration: TumorSurfer
 **Concept:**  
 To bridge tumor and healthy-tissue understanding, we explored **TumorSurfer**, a multitask model jointly predicting anatomical structures and tumor subregions.  
 Using **FastSurfer-derived anatomical labels** refined by our own *SimpleSurfer* network, TumorSurfer encouraged structural awareness in boundary learning.
@@ -165,7 +175,7 @@ Future directions include coupling anatomical priors with the tumor model throug
 
 ---
 
-## 🔗 References
+## 🔗 References to Reproduce
 
 - **Official BraTS Docker Submission Guide:**  
   https://www.synapse.org/Synapse:syn64153130/wiki/633742
