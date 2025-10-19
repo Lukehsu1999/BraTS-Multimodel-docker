@@ -10,6 +10,18 @@
 ---
 
 ## 🛠️ Build and Run Docker Image
+### Pre-requests:
+This repository is mainly for the official dockerization of the models, it assumes you already have the 7 models trained and checkpoints saved. <br>
+Feel free to reach out to me for more details on model training.
+```
+        "ResNetM": "nnUNetTrainer__nnUNetResEncUNetMPlans__3d_fullres",
+        "ResNetL": "nnUNetTrainer__nnUNetResEncUNetLPlans__3d_fullres",
+        "ResNetXL": "nnUNetTrainer__nnUNetResEncUNetXLPlans__3d_fullres",
+        "FinetuneM": "nnUNetTrainerDiceTopK10FocalFineTuning1000Eps__nnUNetResEncUNetMPlans__3d_fullres",
+        "FinetuneL": "nnUNetTrainerDiceTopK10FocalFineTuning__nnUNetResEncUNetLPlans__3d_fullres",
+        "FinetuneXL": "nnUNetTrainerDiceTopK10FocalFineTuning__nnUNetResEncUNetXLPlans__3d_fullres",
+        "UMamba": "nnUNetTrainerUMambaBot__nnUNetPlans__3d_fullres"
+```
 Open your Ubuntu terminal
 
 Clean up (optional):
