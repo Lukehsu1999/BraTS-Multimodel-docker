@@ -21,7 +21,7 @@ Experimental training pipelines and ablation studies were developed in a **separ
 For inquiries or collaboration, please contact the authors.
 
 ## 📘 Table of Contents
-- [Problem Statement]()
+- [Problem Statement](https://github.com/Lukehsu1999/BraTS-Multimodel-docker/blob/main/README.md#-problem-statement)
 - [Methods]()
   - [Pseudo-Label Supervised Finetuning]()
   - [Ratio-Adaptive Postprocessing]()
@@ -29,7 +29,7 @@ For inquiries or collaboration, please contact the authors.
 - [Results]()
 - [References to Reproduce]()
 - [Build and Run Docker Image]()
-- [Common Setup & Debugging Issues]()
+- [Common Setup & Debugging Issues](https://github.com/Lukehsu1999/BraTS-Multimodel-docker/blob/main/README.md#-common-setup--debugging-issues)
 
 ## 🧩 Problem Statement
 The **MICCAI BraTS GoAT Challenge** (*Brain Tumor Segmentation Generalizability Across Tumors*) evaluates how well segmentation models **generalize across tumor types**, a key step toward clinically reliable AI.
