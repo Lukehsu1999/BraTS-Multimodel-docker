@@ -25,29 +25,35 @@ For inquiries or collaboration, please contact the authors.
 ---
 
 ## 🧩 Problem Statement
-The **MICCAI BraTS GoAT Challenge** (*Brain Tumor Segmentation Generalizability Across Tumors*) aims to test whether segmentation models can **generalize across multiple brain tumor types and imaging domains** — a step toward clinically robust AI systems.
+The **MICCAI BraTS GoAT Challenge** (*Brain Tumor Segmentation Generalizability Across Tumors*) evaluates how well segmentation models **generalize across tumor types and MRI domains**, a key step toward clinically reliable AI.
 
-Unlike previous BraTS editions that focused only on *adult gliomas*, BraTS-GoAT expands to include:
-- **Adult gliomas**
-- **Sub-Saharan African gliomas**
-- **Meningiomas**
-- **Brain metastases**
-- **Pediatric brain tumors**
+Unlike earlier BraTS editions limited to adult gliomas, GoAT includes:
+**Adult gliomas**, **African gliomas**, **Meningiomas**, **Brain metastases**, and **Pediatric tumors** — each differing in scanner type, lesion pattern, and demographics.
 
-Each dataset differs in **scanner type, acquisition protocol, lesion morphology, and patient demographics**, making cross-tumor generalization extremely challenging.
+The goal is to build algorithms that can:
+- Segment key **tumor subregions** (*ET*, *TC*, *WT*)  
+- Perform robustly **across institutions and tumor types**  
 
-Participants must develop algorithms capable of:
-- Segmenting **tumor subregions** (Enhancing Tumor *ET*, Tumor Core *TC*, Whole Tumor *WT*)  
-- Performing consistently **across institutions and tumor types**
-- Working under **limited supervision** with incomplete labels and varying tumor anatomy  
-
+<table align="center">
+  <tr>
+    <td align="center" width="33%">
+      <img src="https://github.com/Lukehsu1999/BraTS-Multimodel-docker/blob/main/diagrams/Radiopaedia_Glioma.jpeg" width="95%"/><br/>
+      <sub><b>(a)</b> Glioma </sub>
+    </td>
+    <td align="center" width="33%">
+      <img src="https://github.com/Lukehsu1999/BraTS-Multimodel-docker/blob/main/diagrams/Radiopaedia_Meningioma.jpg" width="95%"/><br/>
+      <sub><b>(b)</b> Meningioma </sub>
+    </td>
+    <td align="center" width="33%">
+      <img src="https://github.com/Lukehsu1999/BraTS-Multimodel-docker/blob/main/diagrams/Radiopaedia_Metastasis.jpeg" width="95%"/><br/>
+      <sub><b>(c)</b> Metastasis </sub>
+    </td>
+  </tr>
+</table>
 <p align="center">
-  <img src="assets/brats_tumor_types.png" width="85%">
+  <em>
+  Images adapted from <a href="https://radiopaedia.org/" target="_blank">Radiopaedia.org</a> under CC BY-NC-SA 3.0 license.</em>
 </p>
-<p align="center"><em>Figure 1. Illustration of tumor heterogeneity across different patient populations (Adult glioma, Meningioma, Brain metastasis, Pediatric tumor).</em></p>
-
-This challenge simulates a real-world scenario:  
-> Can a model trained on certain diseases adapt to new tumor types — with minimal data — and still maintain reliable segmentation accuracy?
 
 
 ## 🔗 References
