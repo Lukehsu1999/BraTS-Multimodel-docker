@@ -13,19 +13,16 @@
 </p>
 
 ## 📘 Repository Overview  
-The [**MICCAI BraTS GoAT Challenge**](https://www.synapse.org/Synapse:syn64153130/wiki/631456) (*Brain Tumor Segmentation Generalizability Across Tumors*) is an international competition held at the **Medical Image Computing and Computer-Assisted Intervention (MICCAI)** conference.  
-It evaluates how well segmentation algorithms generalize across **different tumor types, acquisition domains, and institutions**, emphasizing robustness and clinical reliability.
+The [**MICCAI BraTS GoAT Challenge**](https://www.synapse.org/Synapse:syn64153130/wiki/631456) (*Brain Tumor Segmentation Generalizability Across Tumors*) is an international competition at **MICCAI**, evaluating how well segmentation algorithms **generalize across tumor types, imaging domains, and institutions**.
 
-This repository contains the **official Dockerized implementation** of our **1st-place solution** in the MICCAI 2025 BraTS GoAT Challenge.  
-It encapsulates the complete **inference and evaluation pipeline** for reproducibility and submission to the MICCAI evaluation server.
+This repository provides the **official Dockerized implementation** of our **1st-place solution**, containing the complete **inference and evaluation pipeline** used for submission to the MICCAI evaluation server.
 
 Experimental training pipelines and ablation studies were developed in a **separate internal repository** by *Luke Hsu* and *Khoa Nguyen*.  
 For inquiries or collaboration, please contact the authors.
 
----
 
 ## 🧩 Problem Statement
-The **MICCAI BraTS GoAT Challenge** (*Brain Tumor Segmentation Generalizability Across Tumors*) evaluates how well segmentation models **generalize across tumor types and MRI domains**, a key step toward clinically reliable AI.
+The **MICCAI BraTS GoAT Challenge** (*Brain Tumor Segmentation Generalizability Across Tumors*) evaluates how well segmentation models **generalize across tumor types**, a key step toward clinically reliable AI.
 
 Unlike earlier BraTS editions limited to adult gliomas, GoAT includes:
 **Adult gliomas**, **African gliomas**, **Meningiomas**, **Brain metastases**, and **Pediatric tumors** — each differing in scanner type, lesion pattern, and demographics.
