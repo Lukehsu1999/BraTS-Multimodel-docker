@@ -1,4 +1,15 @@
 # BraTS 2025 Multi-Model Docker
+
+## 🧠 MICCAI BraTS GoAT Challenge – 1st Place Solution (MICCAI 2025)  🏆
+**Enhancing Brain Tumor Segmentation Generalizability via Pseudo-Labeling and Ratio-Adaptive Postprocessing**  
+*To-Liang Hsu¹⋆, Dang Khoa Nguyen¹⋆, Pai Lin¹, Ching-Ting Lin¹, Wei-Chun Wang¹⋆⋆*  
+¹ China Medical University Hospital Artificial Intelligence Center, Taichung, Taiwan  
+(⋆ Equal contribution, ⋆⋆ Corresponding author)  
+*Accepted to MICCAI 2025 (in press, Lecture Notes in Computer Science, Springer)*  
+
+📄 [**Preprint (coming soon)**]() &nbsp;|&nbsp; 🐳 [**Docker Repository (Official Submission)**](https://github.com/Lukehsu1999/BraTS-Multimodel-docker) &nbsp;|&nbsp; 🏆 [**BraTS 2025 Official Website**](https://www.synapse.org/Synapse:syn64153130/wiki/630130)
+
+
 ## 🔗 References
 
 - **Official BraTS Docker Submission Guide:**  
