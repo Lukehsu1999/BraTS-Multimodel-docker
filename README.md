@@ -22,13 +22,13 @@ For inquiries or collaboration, please contact the authors.
 
 ## 📘 Table of Contents
 - [Problem Statement](https://github.com/Lukehsu1999/BraTS-Multimodel-docker/blob/main/README.md#-problem-statement)
-- [Methods]()
-  - [Pseudo-Label Supervised Finetuning]()
-  - [Ratio-Adaptive Postprocessing]()
-- [Innovative Exploration: TumorSurfer]()
-- [Results]()
-- [References to Reproduce]()
-- [Build and Run Docker Image]()
+- [Methods](https://github.com/Lukehsu1999/BraTS-Multimodel-docker/blob/main/README.md#-methods)
+  - [Pseudo-Label Supervised Finetuning](https://github.com/Lukehsu1999/BraTS-Multimodel-docker/blob/main/README.md#-pseudo-label-supervised-fine-tuning)
+  - [Ratio-Adaptive Postprocessing](https://github.com/Lukehsu1999/BraTS-Multimodel-docker/blob/main/README.md#%EF%B8%8F-ratio-adaptive-postprocessing)
+- [Innovative Exploration: TumorSurfer](https://github.com/Lukehsu1999/BraTS-Multimodel-docker/blob/main/README.md#-innovative-exploration-tumorsurfer)
+- [Results](https://github.com/Lukehsu1999/BraTS-Multimodel-docker/blob/main/README.md#-results)
+- [References to Reproduce](https://github.com/Lukehsu1999/BraTS-Multimodel-docker/blob/main/README.md#-references-to-reproduce)
+- [Build and Run Docker Image](https://github.com/Lukehsu1999/BraTS-Multimodel-docker/blob/main/README.md#%EF%B8%8F-build-and-run-docker-image)
 - [Common Setup & Debugging Issues](https://github.com/Lukehsu1999/BraTS-Multimodel-docker/blob/main/README.md#-common-setup--debugging-issues)
 
 ## 🧩 Problem Statement
