@@ -108,7 +108,7 @@ WT_thresh = max(min(0.005 * WT_vol, 250), 10)
 This formulation blends literature-inspired bounds with adaptive scaling, removing small noisy components while preserving valid small lesions.
 
 **Effect:**  
-Compared with fixed thresholds, ratio-adaptive filtering reduced **ET false positives from 66 → 17** while limiting false negatives to 68, yielding a more balanced precision–recall trade-off and higher lesion-wise Dice (ET ↑ 0.009, WT ↑ 0.017).  
+Compared with fixed thresholds, ratio-adaptive filtering reduced **ET false positives** significantly while limiting false negatives growth, yielding a more balanced precision–recall trade-off and higher lesion-wise Dice.  
 The strategy proved stable across all tumor types without needing explicit type labels.
 
 <p align="center">
