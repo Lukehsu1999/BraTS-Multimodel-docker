@@ -12,13 +12,23 @@
   <img src="https://github.com/Lukehsu1999/Lukehsu1999/blob/main/MICCAI_BraTS_Trophy.png" width="45%" valign="middle"/>
 </p>
 
-## 📘 Repository Overview  
-The [**MICCAI BraTS GoAT Challenge**](https://www.synapse.org/Synapse:syn64153130/wiki/631456) (*Brain Tumor Segmentation Generalizability Across Tumors*) is an international competition at **MICCAI** (Medical Image Computing and Computer-Assisted Intervention), evaluating how well segmentation algorithms **generalize across tumor types, demographics, and institutions**.
 
-This repository provides the **official Dockerized implementation** of our **1st-place solution**, containing the complete **inference and evaluation pipeline** used for submission to the MICCAI evaluation server.
+## 🧭 Repository Overview
 
-Experimental training pipelines and ablation studies were developed in a **separate internal repository** by *Luke Hsu* and *Khoa Nguyen*.  
-For inquiries or collaboration, please contact the authors.
+The [**BraTS - GoAT Challenge**](https://www.synapse.org/Synapse:syn64153130/wiki/631456) (*Brain Tumor Segmentation - Generalizability Across Tumors*) is an international competition at **MICCAI — Medical Image Computing and Computer-Assisted Intervention**, evaluating how well brain tumor segmentation algorithms generalize across **tumor types, demographics, and institutions**.
+
+Our approach introduces three key contributions that collectively enhance generalizability across heterogeneous tumor domains:
+
+1. **Pseudo-Label Supervised Fine-Tuning** — leveraging unlabeled MRI cases through conservative pseudo-label generation to expand the effective training distribution while maintaining label reliability.  
+2. **Ratio-Adaptive Postprocessing** — a **case-customized yet tumor-type-agnostic** refinement method that dynamically scales thresholds based on predicted tumor volume, **without requiring prior tumor-type knowledge**, achieving a balanced precision–recall tradeoff across heterogeneous cases.  
+3. **TumorSurfer (Exploratory Module)** — a multitask, anatomy-aware framework that jointly learns tumor and structural priors, offering insights for future research on anatomy-guided segmentation.
+
+This repository provides the **official Dockerized implementation** of our **1st-place solution**, containing the complete inference and evaluation pipeline submitted to the MICCAI evaluation server.
+> ⚠️ **Note:** Model checkpoints are **not included** in this repository due to their large size. Please contact the authors if access is required.
+
+Experimental training pipelines and ablation studies were developed in a separate internal repository by **Luke Hsu** and **Dang Khoa Nguyen**.  
+For research inquiries or collaboration, please contact the authors.
+
 
 ## 📘 Table of Contents
 - [Problem Statement](https://github.com/Lukehsu1999/BraTS-Multimodel-docker/blob/main/README.md#-problem-statement)
