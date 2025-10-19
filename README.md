@@ -86,12 +86,13 @@ While effects on fine subregions were modest, pseudo-labels enriched the ensembl
 Fixed thresholding rules from prior BraTS challenges fail under GoAT’s cross-tumor variability — a single cutoff cannot fit both large gliomas and small metastases.
 
 **Approach:**  
-We designed a **ratio-adaptive thresholding** strategy that scales cutoffs based on each case’s predicted tumor volume:
+We designed a **ratio-adaptive thresholding** strategy that scales cutoffs based on each case’s predicted tumor volume: we first calculate the average whole tumor volume of the case
 
-\[
-\text{ET}_{thresh} = \min(0.0005 \times \text{WT}_{vol}, 100), \quad
-\text{WT}_{thresh} = \max(\min(0.005 \times \text{WT}_{vol}, 250), 10)
-\]
+<p align="center">
+  <code>ET_thresh = min(0.0005 × WT_vol, 100)</code><br/>
+  <code>WT_thresh = max(min(0.005 × WT_vol, 250), 10)</code>
+</p>
+
 
 This formulation blends literature-inspired bounds with adaptive scaling, removing small noisy components while preserving valid small lesions.
 
