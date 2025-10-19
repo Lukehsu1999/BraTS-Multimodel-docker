@@ -41,7 +41,7 @@ The goal is to build algorithms that can:
       <sub><b>(a)</b> Glioma </sub>
     </td>
     <td align="center" width="33%">
-      <img src="https://github.com/Lukehsu1999/BraTS-Multimodel-docker/blob/main/diagrams/Radiopaedia_Meningioma.jpg" width="95%"/><br/>
+      <img src="https://github.com/Lukehsu1999/BraTS-Multimodel-docker/blob/main/diagrams/Radiopaedia_Meningioma2.jpg.png" width="95%"/><br/>
       <sub><b>(b)</b> Meningioma </sub>
     </td>
     <td align="center" width="33%">
