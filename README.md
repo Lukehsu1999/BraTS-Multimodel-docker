@@ -59,7 +59,6 @@ The goal is to build algorithms that can:
 Our segmentation system improves **cross-tumor generalization** through two core modules — **Pseudo-Label Supervised Fine-Tuning** and **Ratio-Adaptive Postprocessing** — built atop a diverse ensemble of nnU-Net and U-Mamba architectures.  
 These components complement each other: pseudo-labels expand supervision to unseen tumor patterns, while ratio-adaptive rules refine predictions without relying on tumor-type information.
 
----
 
 ### 🧩 Pseudo-Label Supervised Fine-Tuning
 **Motivation:**  
@@ -78,11 +77,9 @@ Pseudo-label supervision improved generalization, especially for **Whole Tumor (
 While effects on fine subregions were modest, pseudo-labels enriched the ensemble’s diversity and robustness across domains.
 
 <p align="center">
-  <img src="assets/brats_pseudo_labeling.png" width="80%">
+  <img src="https://github.com/Lukehsu1999/BraTS-Multimodel-docker/blob/main/diagrams/PseudoLabelingPipeline.png" width="80%">
 </p>
-<p align="center"><em>Figure 2. Pseudo-label generation and fine-tuning pipeline.</em></p>
-
----
+<p align="center"><em>Pseudo-label generation and fine-tuning pipeline.</em></p>
 
 ### ⚖️ Ratio-Adaptive Postprocessing
 **Challenge:**  
@@ -103,9 +100,9 @@ Compared with fixed thresholds, ratio-adaptive filtering reduced **ET false posi
 The strategy proved stable across all tumor types without needing explicit type labels.
 
 <p align="center">
-  <img src="assets/brats_ratio_adaptive.png" width="80%">
+  <img src="https://github.com/Lukehsu1999/BraTS-Multimodel-docker/blob/main/diagrams/BraTSFinalSystem.jpg" width="80%">
 </p>
-<p align="center"><em>Figure 3. Ratio-adaptive postprocessing dynamically adjusts thresholds by tumor volume, improving lesion completeness.</em></p>
+<p align="center"><em> Final System Overview.</em></p>
 
 ---
 
