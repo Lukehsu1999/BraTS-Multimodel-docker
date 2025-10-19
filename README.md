@@ -1,11 +1,11 @@
-# 🧠 MICCAI BraTS GoAT Challenge – 1st Place Solution (MICCAI 2025)  🏆
+# 🧠 BraTS GoAT Challenge – 1st Place Solution (MICCAI 2025)  🏆
 **Enhancing Brain Tumor Segmentation Generalizability via Pseudo-Labeling and Ratio-Adaptive Postprocessing**  
 *To-Liang Hsu¹⋆, Dang Khoa Nguyen¹⋆, Pai Lin¹, Ching-Ting Lin¹, Wei-Chun Wang¹⋆⋆*  
 ¹ China Medical University Hospital Artificial Intelligence Center, Taichung, Taiwan  
 (⋆ Equal contribution, ⋆⋆ Corresponding author)  
 *Accepted to MICCAI 2025 (in press, Lecture Notes in Computer Science, Springer)*  
 
-📄 [**Preprint (coming soon)**]() &nbsp;|&nbsp; 🐳 [**Docker Repository (Official Submission)**](https://github.com/Lukehsu1999/BraTS-Multimodel-docker) &nbsp;|&nbsp; 🏆 [**BraTS 2025 Official Website**](https://www.synapse.org/Synapse:syn64153130/wiki/630130)
+📄 [**Preprint (coming soon)**]() &nbsp;|&nbsp; 🏆 [**BraTS 2025 Official Website**](https://www.synapse.org/Synapse:syn64153130/wiki/630130)
 
 <p align="center">
   <img src="https://github.com/Lukehsu1999/Lukehsu1999/blob/main/MICCAI_Presentation.jpg" width="45%" valign="middle"/>
@@ -59,7 +59,6 @@ The goal is to build algorithms that can:
 Our segmentation system improves **cross-tumor generalization** through two core modules — **Pseudo-Label Supervised Fine-Tuning** and **Ratio-Adaptive Postprocessing** — built atop a diverse ensemble of nnU-Net and U-Mamba architectures.  
 These components complement each other: pseudo-labels expand supervision to unseen tumor patterns, while ratio-adaptive rules refine predictions without relying on tumor-type information.
 
----
 
 ### 🧩 Pseudo-Label Supervised Fine-Tuning
 **Motivation:**  
@@ -82,7 +81,6 @@ While effects on fine subregions were modest, pseudo-labels enriched the ensembl
 </p>
 <p align="center"><em>Pseudo-label generation pipeline</em></p>
 
----
 
 ### ⚖️ Ratio-Adaptive Postprocessing
 **Challenge:**  
@@ -143,6 +141,29 @@ Future directions include coupling anatomical priors with the tumor model throug
 </p>
 <p align="center"><em> Example of TumorSurfer output</em></p>
 
+--- 
+## 🧪 Results
+
+### 🎯 Official Test-Phase Results (BraTS 2025 GoAT)
+| Metric | ET | TC | WT |
+|:--|:--:|:--:|:--:|
+| Lesion-wise Dice | 0.800 | 0.827 | 0.828 |
+| Lesion-wise NSD @ 1mm | 0.826 | 0.801 | 0.763 |
+
+> 🏆 Co-first place at the MICCAI BraTS 2025 Lighthouse GoAT Challenge.  
+> Evaluated on hidden test data by the BraTS organizers.
+
+
+### 💡 Validation Results (Before vs. After Postprocessing)
+| Model | ET | NETC | SNFH | TC | WT |
+|:--|:--:|:--:|:--:|:--:|:--:|
+| 7-model Ensemble (Raw) | 0.745 | 0.662 | 0.782 | 0.824 | 0.816 |
+| 7-model Ensemble (Postprocessed) | **0.756** | 0.662 | **0.788** | **0.827** | **0.831** |
+
+> Ratio-adaptive postprocessing improved lesion-wise Dice across all tumor subregions.
+
+
+---
 
 ## 🔗 References
 
@@ -151,7 +172,6 @@ Future directions include coupling anatomical priors with the tumor model throug
 - **Codebase Reference (GoAT Inference):**  
   https://github.com/ShadowTwin41/BraTS_2023_2024_solutions/tree/main/Segmentation_Tasks/BraTS_ISBI_GoAT_2024_inference
 
----
 ---
 
 ## 🛠️ Build and Run Docker Image
