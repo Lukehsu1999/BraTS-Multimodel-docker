@@ -25,7 +25,7 @@ For inquiries or collaboration, please contact the authors.
 - [Methods](https://github.com/Lukehsu1999/BraTS-Multimodel-docker/blob/main/README.md#-methods)
   - [Pseudo-Label Supervised Finetuning](https://github.com/Lukehsu1999/BraTS-Multimodel-docker/blob/main/README.md#-pseudo-label-supervised-fine-tuning)
   - [Ratio-Adaptive Postprocessing](https://github.com/Lukehsu1999/BraTS-Multimodel-docker/blob/main/README.md#%EF%B8%8F-ratio-adaptive-postprocessing)
-- [Innovative Exploration: TumorSurfer](https://github.com/Lukehsu1999/BraTS-Multimodel-docker/blob/main/README.md#-innovative-exploration-tumorsurfer)
+- [Exploratory Module: TumorSurfer](https://github.com/Lukehsu1999/BraTS-Multimodel-docker/edit/main/README.md#-exploratory-module-tumorsurfer)
 - [Results](https://github.com/Lukehsu1999/BraTS-Multimodel-docker/blob/main/README.md#-results)
 - [References to Reproduce](https://github.com/Lukehsu1999/BraTS-Multimodel-docker/blob/main/README.md#-references-to-reproduce)
 - [Build and Run Docker Image](https://github.com/Lukehsu1999/BraTS-Multimodel-docker/blob/main/README.md#%EF%B8%8F-build-and-run-docker-image)
@@ -118,7 +118,7 @@ The strategy proved stable across all tumor types without needing explicit type 
 
 ---
 
-## 🌊 Innovative Exploration: TumorSurfer
+## 🌊 Exploratory Module: TumorSurfer
 **Concept:**  
 To bridge tumor and healthy-tissue understanding, we explored **TumorSurfer**, a multitask model jointly predicting anatomical structures and tumor subregions.  
 Using **FastSurfer-derived anatomical labels** refined by our own *SimpleSurfer* network, TumorSurfer encouraged structural awareness in boundary learning.
