@@ -109,7 +109,7 @@ The strategy proved stable across all tumor types without needing explicit type 
 
 ---
 
-### 🌊 TumorSurfer: Anatomically Guided Exploration
+## 🌊 TumorSurfer: Anatomically Guided Exploration
 **Concept:**  
 To bridge tumor and healthy-tissue understanding, we explored **TumorSurfer**, a multitask model jointly predicting anatomical structures and tumor subregions.  
 Using **FastSurfer-derived anatomical labels** refined by our own *SimpleSurfer* network, TumorSurfer encouraged structural awareness in boundary learning.
@@ -118,10 +118,29 @@ Although it achieved **Dice > 0.9** for major anatomical regions (white matter, 
 Future directions include coupling anatomical priors with the tumor model through attention or anatomy-aware postprocessing.
 
 <p align="center">
-  <img src="assets/tumor_surfer_concept.png" width="75%">
+  <img src="https://github.com/Lukehsu1999/BraTS-Multimodel-docker/blob/main/diagrams/TumorSurfer-FastSurfer.jpg" width="75%">
 </p>
-<p align="center"><em>Figure 4. TumorSurfer concept: integrating anatomical structure awareness with pathological segmentation.</em></p>
+<p align="center"><em>Pre-trained FastSurfer for rough anatomical labels. Note that FastSurfer accepts T1 MRI.</em></p>
 
+<p align="center">
+  <img src="https://github.com/Lukehsu1999/BraTS-Multimodel-docker/blob/main/diagrams/TumorSurfer-SimpleSurfer.jpg" width="75%">
+</p>
+<p align="center"><em> Train SimpleSurfer for refined anatomical labels, accepting 4 MRI modalities as input</em></p>
+
+<p align="center">
+  <img src="https://github.com/Lukehsu1999/BraTS-Multimodel-docker/blob/main/diagrams/FastSurfer_SimpleSurfer.png" width="75%">
+</p>
+<p align="center"><em> Visual comparison between pre-trained FastSurfer and our customized SimpleSurfer</em></p>
+
+<p align="center">
+  <img src="https://github.com/Lukehsu1999/BraTS-Multimodel-docker/blob/main/diagrams/TumorSurfer-TumorSurfer.jpg" width="75%">
+</p>
+<p align="center"><em> Train TumorSurfer to segment both anatomical and tumor labels</em></p>
+
+<p align="center">
+  <img src="https://github.com/Lukehsu1999/BraTS-Multimodel-docker/blob/main/diagrams/TumorSurfer.png" width="75%">
+</p>
+<p align="center"><em> Example of TumorSurfer output</em></p>
 
 
 ## 🔗 References
