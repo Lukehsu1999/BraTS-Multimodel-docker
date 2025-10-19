@@ -1,4 +1,4 @@
-# 🧠 MICCAI BraTS GoAT Challenge – 1st Place Solution (MICCAI 2025)  🏆
+# 🏆 BraTS GoAT Challenge – 1st Place Solution (MICCAI 2025) 
 **Enhancing Brain Tumor Segmentation Generalizability via Pseudo-Labeling and Ratio-Adaptive Postprocessing**  
 *To-Liang Hsu¹⋆, Dang Khoa Nguyen¹⋆, Pai Lin¹, Ching-Ting Lin¹, Wei-Chun Wang¹⋆⋆*  
 ¹ China Medical University Hospital Artificial Intelligence Center, Taichung, Taiwan  
