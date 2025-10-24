@@ -48,7 +48,7 @@ Unlike other BraTS challenges that focus on a single tumor type, GoAT encompasse
 
 The goal is to build algorithms that can:
 - Segment key **tumor subregions** (*ET (Enhancing Tumor)*, *NETC (Non-Enhancing Tumor Core)*, *SNFH (Surrounding FLAIR Hyperintensity / Edema)*)  
-- Perform robustly **across institutions and tumor types**
+- Perform robustly **across demographics and tumor types**
   
 <table align="center">
   <tr>
