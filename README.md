@@ -40,6 +40,7 @@ For research inquiries or collaboration, please contact the authors.
 - [References for Dockerization](https://github.com/Lukehsu1999/BraTS-Multimodel-docker/edit/main/README.md#-references-for-dockerization)
 - [Build and Run Docker Image](https://github.com/Lukehsu1999/BraTS-Multimodel-docker/blob/main/README.md#%EF%B8%8F-build-and-run-docker-image)
 - [Common Setup & Debugging Issues](https://github.com/Lukehsu1999/BraTS-Multimodel-docker/blob/main/README.md#-common-setup--debugging-issues)
+- [Steps to Reproduce](https://github.com/Lukehsu1999/BraTS-Multimodel-docker/tree/main/docs#steps-to-reproduce)
 
 ## 🧩 Problem Statement
 The **MICCAI BraTS GoAT Challenge** (*Brain Tumor Segmentation Generalizability Across Tumors*) evaluates how well segmentation models **generalize across tumor types**, a key step toward clinically reliable AI.
