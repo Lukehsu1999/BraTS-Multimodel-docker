@@ -129,11 +129,14 @@ The strategy proved stable across all tumor types without needing explicit type 
 
 ## 🌊 Exploratory Module: TumorSurfer
 **Concept:**  
-To bridge tumor and healthy-tissue understanding, we explored **TumorSurfer**, a multitask model jointly predicting anatomical structures and tumor subregions.  
-Using **FastSurfer-derived anatomical labels** refined by our own *SimpleSurfer* network, TumorSurfer encouraged structural awareness in boundary learning.
+To bridge **tumor** and **healthy-tissue** understanding, we explored **TumorSurfer**, a multitask model jointly predicting **anatomical structures** and **tumor subregions**.  
+The idea stemmed from a question central to this project: *how much biomedical prior knowledge can be explicitly integrated into a network that already learns so effectively from data?*  
+If conventional segmentation treats everything non-tumor as undifferentiated background, *could a model that also learns what healthy anatomy looks like gain a stronger sense of where pathology begins?*
 
-Although it achieved **Dice > 0.9** for major anatomical regions (white matter, cortex, ventricles), tumor segmentation lagged due to label imbalance and shared-capacity effects.  
-Future directions include coupling anatomical priors with the tumor model through attention or anatomy-aware postprocessing.
+Using **FastSurfer-derived anatomical labels**, refined by our own **SimpleSurfer** network, TumorSurfer encouraged **structural awareness** in boundary learning.  
+Although it achieved **Dice > 0.9** for major anatomical regions (*white matter*, *cortex*, *ventricles*), **tumor segmentation lagged** due to **label imbalance** and **shared-capacity effects** — an observation that revealed the delicate tradeoff between *multitask richness* and *task-specific focus*.
+
+Future directions include coupling **anatomical priors** with the tumor model through **attention mechanisms** or **anatomy-aware postprocessing**, so that *anatomy informs pathology without competing for representation capacity*.
 
 <p align="center">
   <img src="https://github.com/Lukehsu1999/BraTS-Multimodel-docker/blob/main/diagrams/TumorSurfer-FastSurfer.jpg" width="75%">
