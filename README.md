@@ -44,7 +44,7 @@ For research inquiries or collaboration, please contact the authors.
 ## 🧩 Problem Statement
 The **MICCAI BraTS GoAT Challenge** (*Brain Tumor Segmentation Generalizability Across Tumors*) evaluates how well segmentation models **generalize across tumor types**, a key step toward clinically reliable AI.
 
-Unlike earlier BraTS editions limited to adult gliomas, GoAT includes:
+Unlike earlier BraTS challenges focusing on one specific tumor type, GoAT includes:
 **Adult gliomas**, **African gliomas**, **Meningiomas**, **Brain metastases**, and **Pediatric tumors** — each differing in scanner type, lesion pattern, and demographics.
 
 The goal is to build algorithms that can:
