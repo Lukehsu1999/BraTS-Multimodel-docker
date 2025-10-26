@@ -188,5 +188,8 @@ Future directions include coupling **anatomical priors** with the tumor model th
 ## Steps to Reproduce
 For detailed setup, environment configuration, and reproducibility instructions, see [docs/README.md](https://github.com/Lukehsu1999/BraTS-Multimodel-docker/tree/main/docs#steps-to-reproduce).
 
-
+<p align="center">
+  <img src="https://github.com/Lukehsu1999/BraTS-Multimodel-docker/blob/main/diagrams/BraTS_Team_Image.jpg" width="75%">
+</p>
+<p align="center"><em>Team CMUH AIC!!</em></p>
 
